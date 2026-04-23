@@ -1,7 +1,8 @@
+from unittest.mock import patch
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
-from unittest.mock import patch
 
 import shap
 from shap.utils._exceptions import DimensionError
@@ -111,7 +112,7 @@ def test_violin_plot_edge_cases(mock_show):
     shap_values = np.random.randn(20, 5)
     features = np.random.randn(20, 5)
     feature_names = ["F1", "F2", "F3", "F4", "F5"]
-    
+
     shap.plots.violin(
         shap_values,
         features=features,
@@ -120,7 +121,7 @@ def test_violin_plot_edge_cases(mock_show):
         color="red",
         title="Custom Title",
         plot_size=(8, 4),
-        show=True
+        show=True,
     )
     plt.close()
 
@@ -128,9 +129,7 @@ def test_violin_plot_edge_cases(mock_show):
 def test_violin_plot_explanation_object():
     """Hits branches extracting matrices and names directly from an Explanation object."""
     expl = shap.Explanation(
-        values=np.random.randn(20, 5),
-        data=np.random.randn(20, 5),
-        feature_names=["F1", "F2", "F3", "F4", "F5"]
+        values=np.random.randn(20, 5), data=np.random.randn(20, 5), feature_names=["F1", "F2", "F3", "F4", "F5"]
     )
     shap.plots.violin(expl, show=False)
     plt.close()
