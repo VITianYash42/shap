@@ -1,5 +1,3 @@
-from unittest.mock import patch
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
@@ -107,12 +105,15 @@ def test_summary_layered_violin_with_data2():
 
 # AI-generated test cases for SHAP coverage improvement
 @patch("matplotlib.pyplot.show")
-def test_violin_plot_edge_cases(mock_show):
+def test_violin_plot_edge_cases(monkeypatch):
     """Hits branches handling max_display, title, specific color strings, and show=True."""
+    # Use pytest's native monkeypatch to prevent GUI windows from opening
+    monkeypatch.setattr(plt, "show", lambda *args, **kwargs: None)
+    
     shap_values = np.random.randn(20, 5)
     features = np.random.randn(20, 5)
     feature_names = ["F1", "F2", "F3", "F4", "F5"]
-
+    
     shap.plots.violin(
         shap_values,
         features=features,
@@ -121,7 +122,7 @@ def test_violin_plot_edge_cases(mock_show):
         color="red",
         title="Custom Title",
         plot_size=(8, 4),
-        show=True,
+        show=True
     )
     plt.close()
 
